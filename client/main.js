@@ -1,15 +1,12 @@
 const canvas = document.getElementById('canvas-id')
 const ctx = canvas.getContext('2d')
 const images = []
-let isPlay = true
+let isDebug = true
+let isPlay = false
 // *************************
-const testingLag = false
+let testingLag = false
 // *************************
-let sprite = {
-  x: 0,
-  y: 0,
-  r: 0,
-}
+let sprite = { x: 0, y: 0, r: 0 }
 
 function setup() {
   canvas.width = 500
@@ -17,26 +14,10 @@ function setup() {
   const img = new Image()
   img.onload = function () {
     onLoadImages()
+    draw()
   }
   img.src = '../images/sand.png'
   images.push(img)
-}
-
-function testLag() {
-  let j = 0
-  const count = 8000000
-  for (let i = 0; i < count; i++) {
-    j = i * i + Math.sqrt(i)
-  }
-  console.log(j)
-}
-
-
-function update(steps) {
-  for (let i = 0; i < steps; i++) {
-    sprite.r += 0.025
-  }
-  // console.log(dt)
 }
 
 function draw() {
@@ -44,13 +25,22 @@ function draw() {
     testLag()
   }
   
-
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
   ctx.translate(64, 64)
   ctx.rotate(sprite.r)
   ctx.drawImage(images[0], sprite.x - 64, sprite.y - 64, 128, 128)
   ctx.restore()
+}
+
+function update(steps) {
+  if (steps > 10) {
+    checkError('steps > 10')
+  }
+  for (let i = 0; i < steps; i++) {
+    sprite.r += 0.025
+  }
+  // console.log(dt)
 }
 
 let lag = 0
