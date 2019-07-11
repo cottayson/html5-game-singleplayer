@@ -1,35 +1,22 @@
 const canvas = document.getElementById('canvas-id')
 const ctx = canvas.getContext('2d')
-const images = []
 
-// img.onload = function () {
-//   onLoadImages()
-//   draw()
-// }
-
-const ALL_IMAGES = 4
 const PATH_TO_IMAGES = '../images/'
 const imageNames = [
   'earth', 'concrete', 'wall', 'sand',
 ]
 
-let countImageFiles = 0
-
-function setImageSrc(img, name) {
-  img.onload = function () {
-    countImageFiles++
-    if (countImageFiles == ALL_IMAGES) {
-      onLoadImages()
-    }
-  }
-  img.src = PATH_TO_IMAGES + name + '.png'
-}
-
-function onLoadImages() {
-  requestAnimationFrame(gameLoop);
-  console.log('Images loaded')
-  draw()
-}
+let imageManager = new ImageManager('.png')
+// (imagesArray, width, height) 
+let gameMap = new GameMap(imageManager.images, 5, 4)
+gameMap.fromArray([
+  0, 1, 2, 3, 0,
+  3, 2, 1, 0, 0,
+  0, 0, 0, 0, 1,
+  1, 1, 1, 1, 0,
+])
+// imageId, width, height
+// let sprite = new Sprite(0, 128, 128)
 
 function setup() {
   canvas.width = 500
@@ -41,17 +28,15 @@ function setup() {
   ctx.webkitImageSmoothingEnabled = false
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
-  for (let i = 0; i < imageNames.length; i++) {
-    const img = new Image()
-    setImageSrc(img, imageNames[i])
-    images.push(img)
-  }
+
+  imageManager.load(imageNames, onLoadImages)
 }
 
-// (imagesArray, width, height) 
-let gameMap = new GameMap(images, 4, 4)
-// imageId, width, height
-// let sprite = new Sprite(0, 128, 128)
+function onLoadImages() {
+  console.log('Images loaded')
+  requestAnimationFrame(gameLoop);
+  draw()
+}
 
 function draw() {
   if (testingLag) {

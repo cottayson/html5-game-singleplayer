@@ -3,12 +3,11 @@ class GameMap {
     this.imagesArray = imagesArray // source
     this.width = width
     this.height = height
-    this.data = new Uint8ClampedArray([
-      0, 1, 2, 3,
-      3, 2, 1, 0,
-      0, 0, 0, 0,
-      1, 1, 1, 1,
-    ]);
+    this.data = new Uint8ClampedArray();
+  }
+
+  fromArray(inputArray) {
+    this.data = new Uint8ClampedArray(inputArray);
   }
 
   draw(ctx) { // position
