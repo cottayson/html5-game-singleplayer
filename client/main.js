@@ -2,24 +2,56 @@ const canvas = document.getElementById('canvas-id')
 const ctx = canvas.getContext('2d')
 const images = []
 
-// imageId, width, height
-let sprite = new Sprite(0, 128, 128)
+// img.onload = function () {
+//   onLoadImages()
+//   draw()
+// }
+
+const ALL_IMAGES = 4
+const PATH_TO_IMAGES = '../images/'
+const imageNames = [
+  'earth', 'concrete', 'wall', 'sand',
+]
+
+let countImageFiles = 0
+
+function setImageSrc(img, name) {
+  img.onload = function () {
+    countImageFiles++
+    if (countImageFiles == ALL_IMAGES) {
+      onLoadImages()
+    }
+  }
+  img.src = PATH_TO_IMAGES + name + '.png'
+}
 
 function onLoadImages() {
   requestAnimationFrame(gameLoop);
+  console.log('Images loaded')
+  draw()
 }
 
 function setup() {
   canvas.width = 500
-  canvas.height = 200
-  const img = new Image()
-  img.onload = function () {
-    onLoadImages()
-    draw()
+  canvas.height = 300
+
+  ctx.font = '12px consolas'
+  ctx.fillStyle = 'rgb(255, 255, 255)'
+
+  ctx.webkitImageSmoothingEnabled = false
+  ctx.mozImageSmoothingEnabled = false
+  ctx.imageSmoothingEnabled = false
+  for (let i = 0; i < imageNames.length; i++) {
+    const img = new Image()
+    setImageSrc(img, imageNames[i])
+    images.push(img)
   }
-  img.src = '../images/sand.png'
-  images.push(img)
 }
+
+// (imagesArray, width, height) 
+let gameMap = new GameMap(images, 4, 4)
+// imageId, width, height
+// let sprite = new Sprite(0, 128, 128)
 
 function draw() {
   if (testingLag) {
@@ -27,16 +59,17 @@ function draw() {
   }
   
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  sprite.draw()
+  gameMap.draw(ctx)
 }
 
 function update(steps) {
   if (steps > 10) {
     checkError('steps > 10')
   }
-  for (let i = 0; i < steps; i++) {
-    sprite.angle += 0.025
-  }
+  // console.log('update')
+  // for (let i = 0; i < steps; i++) {
+  //   sprite.angle += 0.025
+  // }
   // console.log(dt)
 }
 
