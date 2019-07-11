@@ -1,11 +1,13 @@
 class ImageManager {
-  constructor(ext) {
+  constructor(pathToImages, fileExtension) {
+    this.path = pathToImages
     this.countImageFiles = 0
-    this.fileExtension = ext
+    this.fileExtension = fileExtension
     this.images = []
   }
 
   load(imageNames, handleLoadImages) {
+    this.countImageFiles = 0
     for (let i = 0; i < imageNames.length; i++) {
       const img = new Image()
       this.setImageSrc(img, imageNames[i], imageNames.length, handleLoadImages)
@@ -22,6 +24,6 @@ class ImageManager {
         handleLoadImages()
       }
     }
-    img.src = PATH_TO_IMAGES + name + this.fileExtension
+    img.src = this.path + name + this.fileExtension
   }
 }

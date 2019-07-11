@@ -6,7 +6,7 @@ const imageNames = [
   'earth', 'concrete', 'wall', 'sand',
 ]
 
-let imageManager = new ImageManager('.png')
+let imageManager = new ImageManager(PATH_TO_IMAGES, '.png')
 // (imagesArray, width, height) 
 let gameMap = new GameMap(imageManager.images, 5, 4)
 gameMap.fromArray([
