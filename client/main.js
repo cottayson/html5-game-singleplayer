@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d')
 
 const PATH_TO_IMAGES = '../images/'
 const PATH_TO_TEXTURES = '../textures/'
+const PATH_TO_BINARY_FILE = '../maps/atreides/map_01.bin'
 const imageNames = [
   'earth.png', 'concrete.png', 'wall.png', 'sand.png',
 ]
@@ -13,6 +14,7 @@ const textureNames = [
 
 const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
+const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
 // (imagesArray, width, height) 
 const gameMap = new GameMap(imageManager.images, 5, 4)
 gameMap.fromArray([
@@ -23,6 +25,7 @@ gameMap.fromArray([
 ])
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
+
 
 function setup() {
   canvas.width = 500
@@ -35,9 +38,22 @@ function setup() {
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
 
-  imageManager.load(onLoadImages)
+  binaryLoader.load(onLoadMap)
+
+
+  // imageManager.load(onLoadImages)
 }
 
+function onLoadMap(arrayBufferMap) {
+  const uint8 = new Uint8Array(arrayBufferMap)
+  console.log(uint8)
+  let p1 = document.createElement('p')
+  p1.innerHTML = 'mapData: '
+  p1.innerHTML += uint8.join(', ')
+  document.body.appendChild(p1)
+}
+
+// **** load graphics BEGIN ****
 function onLoadImages() {
   console.log('Images loaded')
   textureManager.load(onLoadTextures)
@@ -59,7 +75,7 @@ function onLoadGraphics() {
   requestAnimationFrame(gameLoop);
   draw()
 }
-
+// **** load graphics END ****
 function draw() {
   if (testingLag) {
     testLag()
