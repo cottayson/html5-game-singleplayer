@@ -3,7 +3,8 @@ class GameMap {
     this.textures = textures // source
     this.width = width
     this.height = height
-    this.data = new Uint8Array();
+    this.data = new Uint8Array()
+    // позиция камеры должна различаеться на один пиксель т.е. 1/32 размера тайла
     this.camera = {
       x: 0,
       y: 5,
@@ -17,17 +18,15 @@ class GameMap {
   }
 
   fromArray(inputArray) {
-    this.data = new Uint8Array(inputArray);
+    this.data = new Uint8Array(inputArray)
   }
 
   draw(ctx) {
     if (this.data.length == 0) {
       throw new Error('data not loaded')
     }
-    const tileWidth = TILE_SIZE
-    const tileHeight = TILE_SIZE
     const textureSizeInTiles = 16
-    let tileTexture = this.getTileTexture()
+    const tileTexture = this.getTileTexture()
     ctx.save()
     //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
     // (image: CanvasImageSource, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void
@@ -38,7 +37,7 @@ class GameMap {
         const tileSourceX = tileId % textureSizeInTiles // 0 <= id <= 255 
         const tileSourceY = Math.floor(tileId / textureSizeInTiles)
         //console.log(tileX, tileY)
-        ctx.drawImage(tileTexture, TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, tileWidth, tileHeight, tileWidth * j, tileHeight * i, tileWidth, tileHeight) 
+        ctx.drawImage(tileTexture, TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, TILE_SIZE, TILE_SIZE, TILE_SIZE * j, TILE_SIZE * i, TILE_SIZE, TILE_SIZE)
       }
     }
     ctx.restore()
