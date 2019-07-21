@@ -2,13 +2,19 @@ const canvas = document.getElementById('canvas-id')
 const ctx = canvas.getContext('2d')
 
 const PATH_TO_IMAGES = '../images/'
+const PATH_TO_TEXTURES = '../textures/'
 const imageNames = [
-  'earth', 'concrete', 'wall', 'sand',
+  'earth.png', 'concrete.png', 'wall.png', 'sand.png',
 ]
 
-let imageManager = new ImageManager(PATH_TO_IMAGES, '.png')
+const textureNames = [
+  'tex1.bmp', 'structures.bmp', 'landscape.png',
+]
+
+const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
+const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 // (imagesArray, width, height) 
-let gameMap = new GameMap(imageManager.images, 5, 4)
+const gameMap = new GameMap(imageManager.images, 5, 4)
 gameMap.fromArray([
   0, 1, 2, 3, 0,
   3, 2, 1, 0, 0,
@@ -29,11 +35,27 @@ function setup() {
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
 
-  imageManager.load(imageNames, onLoadImages)
+  imageManager.load(onLoadImages)
 }
 
 function onLoadImages() {
   console.log('Images loaded')
+  textureManager.load(onLoadTextures)
+}
+
+function onLoadTextures() {
+  console.log('textures loaded')
+  onLoadGraphics()
+  // test loading textures
+  for (let i = 0; i < textureManager.images.length; i++) {
+    setTimeout(() => {
+      ctx.drawImage(textureManager.images[i], 0, 0)
+    }, 1000 * (i + 1))
+  }
+}
+
+function onLoadGraphics() {
+  console.log('all graphics loaded')
   requestAnimationFrame(gameLoop);
   draw()
 }

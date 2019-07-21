@@ -1,16 +1,16 @@
 class ImageManager {
-  constructor(pathToImages, fileExtension) {
+  constructor(pathToImages, names) {
     this.path = pathToImages
+    this.names = names
     this.countImageFiles = 0
-    this.fileExtension = fileExtension
     this.images = []
   }
 
-  load(imageNames, handleLoadImages) {
+  load(handleLoadImages) {
     this.countImageFiles = 0
-    for (let i = 0; i < imageNames.length; i++) {
+    for (let i = 0; i < this.names.length; i++) {
       const img = new Image()
-      this.setImageSrc(img, imageNames[i], imageNames.length, handleLoadImages)
+      this.setImageSrc(img, this.names[i], this.names.length, handleLoadImages)
       this.images.push(img)
     }
   }
@@ -24,6 +24,6 @@ class ImageManager {
         handleLoadImages()
       }
     }
-    img.src = this.path + name + this.fileExtension
+    img.src = this.path + name
   }
 }
