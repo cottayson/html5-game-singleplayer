@@ -38,7 +38,7 @@ class GameMap {
         if ( !(tileDestX >= 0 && tileDestX < this.width && tileDestY >= 0 && tileDestY < this.height) ) {
           continue
         }
-        const tileId = this.data[tileDestY * TILE_SIZE + tileDestX]
+        const tileId = this.data[tileDestY * this.width + tileDestX]
         const tileSourceX = tileId % textureSizeInTiles // 0 <= id <= 255 
         const tileSourceY = Math.floor(tileId / textureSizeInTiles)
 

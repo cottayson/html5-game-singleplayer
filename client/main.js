@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d')
 
 const PATH_TO_IMAGES = '../images/'
 const PATH_TO_TEXTURES = '../textures/'
-const PATH_TO_BINARY_FILE = '../maps/atreides/map_02.bin'
+const PATH_TO_BINARY_FILE = '../maps/atreides/map_03.bin'
 const imageNames = [
   'earth.png', 'concrete.png', 'wall.png', 'sand.png',
 ]
@@ -16,7 +16,7 @@ const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
 // (imagesArray, width, height) 
-const gameMap = new GameMap(textureManager.images, 32, 32)
+const gameMap = new GameMap(textureManager.images, 64, 64)
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
 
