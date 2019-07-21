@@ -30,8 +30,7 @@ class GameMap {
     const tileTexture = this.getTileTexture()
     ctx.save()
     //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
-    // (image: CanvasImageSource, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void
-      //ctx.drawImage()
+
     for (let i = 0; i < this.camera.height; i++) { // i номер строки
       for (let j = 0; j < this.camera.width; j++) { // j номер столбца
         const tileDestX = j + this.camera.x
@@ -42,13 +41,13 @@ class GameMap {
         const tileId = this.data[tileDestY * TILE_SIZE + tileDestX]
         const tileSourceX = tileId % textureSizeInTiles // 0 <= id <= 255 
         const tileSourceY = Math.floor(tileId / textureSizeInTiles)
-        //console.log(tileX, tileY)
+
         ctx.drawImage (
-          tileTexture,
-          TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY,
-          TILE_SIZE, TILE_SIZE,
-          TILE_SIZE * j, TILE_SIZE * i,
-          TILE_SIZE, TILE_SIZE
+          tileTexture, // CanvasImageSource
+          TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, //  sx: number, sy: number
+          TILE_SIZE, TILE_SIZE, // sw: number, sh: number
+          TILE_SIZE * j, TILE_SIZE * i, // dx: number, dy: number
+          TILE_SIZE, TILE_SIZE // dw: number, dh: number
         )
       }
     }

@@ -31,8 +31,6 @@ function setup() {
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
 
-  // binaryLoader.load(onLoadMap)
-
   binaryLoader.load(onLoadMap, () => {
     imageManager.load(onLoadImages)
   })
@@ -40,12 +38,6 @@ function setup() {
 
 function onLoadMap(arrayBufferMap) {
   const uint8Map = new Uint8Array(arrayBufferMap)
-  console.log(uint8Map)
-  let p1 = document.createElement('p')
-  p1.innerHTML = 'mapData: '
-  p1.innerHTML += uint8Map.join(', ')
-  document.body.appendChild(p1)
-
   gameMap.data = uint8Map
 }
 
@@ -58,12 +50,6 @@ function onLoadImages() {
 function onLoadTextures() {
   console.log('textures loaded')
   onLoadGraphics()
-  // test loading textures
-  // for (let i = 0; i < textureManager.images.length; i++) {
-  //   setTimeout(() => {
-  //     ctx.drawImage(textureManager.images[i], 0, 0)
-  //   }, 1000 * (i + 1))
-  // }
 }
 
 function onLoadGraphics() {
@@ -85,11 +71,7 @@ function update(steps) {
   if (steps > 10) {
     checkError('steps > 10')
   }
-  // console.log('update')
-  // for (let i = 0; i < steps; i++) {
-  //   sprite.angle += 0.025
-  // }
-  // console.log(dt)
+  gameMap.camera.y = (gameMap.camera.y + 1) % 3
 }
 
 let lag = 0
@@ -117,10 +99,13 @@ function gameLoop(timeStamp) {
   if (isPlay) {
     update(steps)
     draw()
+    
   }
     
   lag -= steps * frameDuration
-  // console.log(steps, lag)
+  if (isPlay) {
+    console.log(steps, lag)
+  }
   // }
   requestAnimationFrame(gameLoop);
 }
