@@ -24,8 +24,9 @@ class GameMap {
     if (this.data.length == 0) {
       throw new Error('data not loaded')
     }
-    const tileWidth = 32
-    const tileHeight = 32
+    const tileWidth = TILE_SIZE
+    const tileHeight = TILE_SIZE
+    const textureSizeInTiles = 16
     let tileTexture = this.getTileTexture()
     ctx.save()
     //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
@@ -33,11 +34,11 @@ class GameMap {
       //ctx.drawImage()
     for (let i = 0; i < this.camera.height; i++) { // i номер строки
       for (let j = 0; j < this.camera.width; j++) { // j номер столбца
-        const tileId = this.data[(i + this.camera.y) * 32 + (j + this.camera.x)]
-        const tileX = tileId % 16 // 0 <= id <= 255 
-        const tileY = Math.floor(tileId / 16)
+        const tileId = this.data[(i + this.camera.y) * TILE_SIZE + (j + this.camera.x)]
+        const tileSourceX = tileId % textureSizeInTiles // 0 <= id <= 255 
+        const tileSourceY = Math.floor(tileId / textureSizeInTiles)
         //console.log(tileX, tileY)
-        ctx.drawImage(tileTexture, 32 * tileX, 32 * tileY, tileWidth, tileHeight, tileWidth * j, tileHeight * i, tileWidth, tileHeight) 
+        ctx.drawImage(tileTexture, TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, tileWidth, tileHeight, tileWidth * j, tileHeight * i, tileWidth, tileHeight) 
       }
     }
     ctx.restore()
