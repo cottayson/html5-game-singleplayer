@@ -1,7 +1,7 @@
  // https://github.com/marquete/kibo
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === ' ') {
+  if (e.key === 'Enter') {
     isPlay = !isPlay
     if (isPlay) {
       console.log('play')
