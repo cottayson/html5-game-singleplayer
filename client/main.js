@@ -16,16 +16,9 @@ const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
 // (imagesArray, width, height) 
-const gameMap = new GameMap(imageManager.images, 5, 4)
-gameMap.fromArray([
-  0, 1, 2, 3, 0,
-  3, 2, 1, 0, 0,
-  0, 0, 0, 0, 1,
-  1, 1, 1, 1, 0,
-])
+const gameMap = new GameMap(textureManager.images, 32, 32)
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
-
 
 function setup() {
   canvas.width = 500
@@ -38,19 +31,22 @@ function setup() {
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
 
-  binaryLoader.load(onLoadMap)
+  // binaryLoader.load(onLoadMap)
 
-
-  // imageManager.load(onLoadImages)
+  binaryLoader.load(onLoadMap, () => {
+    imageManager.load(onLoadImages)
+  })
 }
 
 function onLoadMap(arrayBufferMap) {
-  const uint8 = new Uint8Array(arrayBufferMap)
-  console.log(uint8)
+  const uint8Map = new Uint8Array(arrayBufferMap)
+  console.log(uint8Map)
   let p1 = document.createElement('p')
   p1.innerHTML = 'mapData: '
-  p1.innerHTML += uint8.join(', ')
+  p1.innerHTML += uint8Map.join(', ')
   document.body.appendChild(p1)
+
+  gameMap.data = uint8Map
 }
 
 // **** load graphics BEGIN ****
@@ -63,11 +59,11 @@ function onLoadTextures() {
   console.log('textures loaded')
   onLoadGraphics()
   // test loading textures
-  for (let i = 0; i < textureManager.images.length; i++) {
-    setTimeout(() => {
-      ctx.drawImage(textureManager.images[i], 0, 0)
-    }, 1000 * (i + 1))
-  }
+  // for (let i = 0; i < textureManager.images.length; i++) {
+  //   setTimeout(() => {
+  //     ctx.drawImage(textureManager.images[i], 0, 0)
+  //   }, 1000 * (i + 1))
+  // }
 }
 
 function onLoadGraphics() {
