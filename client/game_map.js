@@ -7,10 +7,11 @@ class GameMap {
     // позиция камеры должна различаеться на один пиксель т.е. 1/32 размера тайла
     this.camera = {
       x: 0,
-      y: 5,
-      width: 15,
-      height: 10
+      y: 0,
+      width: Math.floor(CANVAS_WIDTH / 32),
+      height: Math.floor(CANVAS_HEIGHT / 32)
     }
+    console.log(canvas.width)
   }
 
   getTileTexture() {
@@ -33,11 +34,22 @@ class GameMap {
       //ctx.drawImage()
     for (let i = 0; i < this.camera.height; i++) { // i номер строки
       for (let j = 0; j < this.camera.width; j++) { // j номер столбца
-        const tileId = this.data[(i + this.camera.y) * TILE_SIZE + (j + this.camera.x)]
+        const tileDestX = j + this.camera.x
+        const tileDestY = i + this.camera.y
+        if ( !(tileDestX >= 0 && tileDestX < this.width && tileDestY >= 0 && tileDestY < this.height) ) {
+          continue
+        }
+        const tileId = this.data[tileDestY * TILE_SIZE + tileDestX]
         const tileSourceX = tileId % textureSizeInTiles // 0 <= id <= 255 
         const tileSourceY = Math.floor(tileId / textureSizeInTiles)
         //console.log(tileX, tileY)
-        ctx.drawImage(tileTexture, TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, TILE_SIZE, TILE_SIZE, TILE_SIZE * j, TILE_SIZE * i, TILE_SIZE, TILE_SIZE)
+        ctx.drawImage (
+          tileTexture,
+          TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY,
+          TILE_SIZE, TILE_SIZE,
+          TILE_SIZE * j, TILE_SIZE * i,
+          TILE_SIZE, TILE_SIZE
+        )
       }
     }
     ctx.restore()

@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d')
 
 const PATH_TO_IMAGES = '../images/'
 const PATH_TO_TEXTURES = '../textures/'
-const PATH_TO_BINARY_FILE = '../maps/atreides/map_01.bin'
+const PATH_TO_BINARY_FILE = '../maps/atreides/map_02.bin'
 const imageNames = [
   'earth.png', 'concrete.png', 'wall.png', 'sand.png',
 ]
@@ -21,8 +21,8 @@ const gameMap = new GameMap(textureManager.images, 32, 32)
 // let sprite = new Sprite(0, 128, 128)
 
 function setup() {
-  canvas.width = 500
-  canvas.height = 300
+  canvas.width = CANVAS_WIDTH
+  canvas.height = CANVAS_HEIGHT
 
   ctx.font = '12px consolas'
   ctx.fillStyle = 'rgb(255, 255, 255)'
