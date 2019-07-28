@@ -9,3 +9,4 @@ http://romhacking.ru/news/dunehack_rebuild_r80b_smd/2015-07-26-3122
 
 - load binary files(map files)
 - render map, camera class
+- camera (x, y) must be in pixels

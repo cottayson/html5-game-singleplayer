@@ -8,8 +8,8 @@ class GameMap {
     this.camera = {
       x: 0,
       y: 0,
-      width: Math.floor(CANVAS_WIDTH / 32),
-      height: Math.floor(CANVAS_HEIGHT / 32)
+      width: Math.floor(CANVAS_WIDTH / 32) - 1/* + 1*/,
+      height: Math.floor(CANVAS_HEIGHT / 32) - 1/* + 1*/,
     }
     console.log(canvas.width)
   }
@@ -22,19 +22,32 @@ class GameMap {
     this.data = new Uint8Array(inputArray)
   }
 
+  isLoaded() {
+    return this.data.length > 0
+  }
+
   draw(ctx) {
-    if (this.data.length == 0) {
+    if (this.isLoaded() == false) {
       throw new Error('data not loaded')
     }
+    // Reset current transformation matrix to the identity matrix
+    // ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     const textureSizeInTiles = 16
     const tileTexture = this.getTileTexture()
     ctx.save()
     //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
+    const testOffsetX = 32 // 0
+    const testOffsetY = 32 // 0
+    const quotientX = Math.floor(this.camera.x / 32)
+    const quotientY = Math.floor(this.camera.y / 32)
+    const residueX = this.camera.x % 32
+    const residueY = this.camera.y % 32
 
     for (let i = 0; i < this.camera.height; i++) { // i номер строки
       for (let j = 0; j < this.camera.width; j++) { // j номер столбца
-        const tileDestX = j + this.camera.x
-        const tileDestY = i + this.camera.y
+        const tileDestX = j + quotientX
+        const tileDestY = i + quotientY
         if ( !(tileDestX >= 0 && tileDestX < this.width && tileDestY >= 0 && tileDestY < this.height) ) {
           continue
         }
@@ -46,31 +59,11 @@ class GameMap {
           tileTexture, // CanvasImageSource
           TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, //  sx: number, sy: number
           TILE_SIZE, TILE_SIZE, // sw: number, sh: number
-          TILE_SIZE * j, TILE_SIZE * i, // dx: number, dy: number
+          TILE_SIZE * j - residueX + testOffsetX, TILE_SIZE * i - residueY + testOffsetY, // dx: number, dy: number
           TILE_SIZE, TILE_SIZE // dw: number, dh: number
         )
       }
     }
     ctx.restore()
   }
-
-
-  // draw(ctx) { // position
-    // Reset current transformation matrix to the identity matrix
-    // ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    // ctx.save()
-    // ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
-    // // i номер строки, j номер столбца
-    // for (let i = 0; i < this.height; i++) {
-    //   for (let j = 0; j < this.width; j++) {
-    //     const id = this.data[this.width * i + j]
-    //     ctx.drawImage(this.imagesArray[id], TILE_SIZE * j, TILE_SIZE * i)
-    //     ctx.fillText(id.toString(), TILE_SIZE * j, TILE_SIZE * i + 16)
-    //   }
-    // }
-    // ctx.restore()
-
-  // }
-    
 }

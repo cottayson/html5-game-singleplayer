@@ -1,13 +1,19 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 canvas, img {
-    image-rendering: optimizeSpeed;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-contrast;
-    image-rendering: pixelated; /* работает для chrome */
-    -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: pixelated; /* работает для chrome */
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+canvas {
+  border-style: solid;
+  border-width: 3;
+  border-color: yellowgreen;
 }
