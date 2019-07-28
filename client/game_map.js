@@ -8,8 +8,8 @@ class GameMap {
     this.camera = {
       x: 0,
       y: 0,
-      width: Math.floor(CANVAS_WIDTH / 32) - 1/* + 1*/,
-      height: Math.floor(CANVAS_HEIGHT / 32) - 1/* + 1*/,
+      width: Math.floor(CANVAS_WIDTH / 32) + 1/* - 1*/,
+      height: Math.floor(CANVAS_HEIGHT / 32) + 1/* - 1*/,
     }
     console.log(canvas.width)
   }
@@ -37,8 +37,8 @@ class GameMap {
     const tileTexture = this.getTileTexture()
     ctx.save()
     //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
-    const testOffsetX = 32 // 0
-    const testOffsetY = 32 // 0
+    const testOffsetX = 0 // 32
+    const testOffsetY = 0 // 32
     const quotientX = Math.floor(this.camera.x / 32)
     const quotientY = Math.floor(this.camera.y / 32)
     const residueX = this.camera.x % 32
