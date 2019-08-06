@@ -1,9 +1,6 @@
-const canvas = document.getElementById('canvas-id')
-const ctx = canvas.getContext('2d')
-
 const PATH_TO_IMAGES = '../images/'
 const PATH_TO_TEXTURES = '../textures/'
-const PATH_TO_BINARY_FILE = '../maps/atreides/map_01.bin'
+const PATH_TO_BINARY_FILE = '../maps/atreides/map_07.bin'
 const imageNames = [
   'earth.png', 'concrete.png', 'wall.png', 'sand.png',
 ]
@@ -18,7 +15,7 @@ const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
 // (imagesArray, width, height) 
-const gameMap = new GameMap(textureManager.images, 32, 32)
+const gameMap = new GameMap(textureManager.images, 64, 64)
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
 
@@ -74,6 +71,7 @@ function draw() {
 
 function update(steps) {
   if (steps > 10) {
+    ctx.fillText('error update steps > 10', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
     checkError('steps > 10')
   }
 }

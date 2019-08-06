@@ -9,5 +9,8 @@ const TILE_SIZE = 32
 
 const REQUEST_READYSTATE_OK = 4
 
-const CANVAS_WIDTH = 800
-const CANVAS_HEIGHT = 640
+const CANVAS_WIDTH = 1024 // 800
+const CANVAS_HEIGHT = 768 // 640
+
+const canvas = document.getElementById('canvas-id')
+const ctx = canvas.getContext('2d')
