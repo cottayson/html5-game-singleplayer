@@ -12,6 +12,8 @@ const textureNames = [
   'tex1.bmp', 'structures.bmp', 'landscape.png',
 ]
 
+const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'build_texture_map.json')
+const buildManager = new BuildManager(buildTextureMap)
 const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
@@ -31,8 +33,10 @@ function setup() {
   ctx.mozImageSmoothingEnabled = false
   ctx.imageSmoothingEnabled = false
 
-  binaryLoader.load(onLoadMap, () => {
-    imageManager.load(onLoadImages)
+  buildTextureMap.load(() => {
+    binaryLoader.load(onLoadMap, () => {
+      imageManager.load(onLoadImages)
+    })
   })
 }
 
@@ -54,6 +58,7 @@ function onLoadTextures() {
 
 function onLoadGraphics() {
   console.log('all graphics loaded')
+  buildManager.loadTextureMap()
   requestAnimationFrame(gameLoop);
   draw()
 }

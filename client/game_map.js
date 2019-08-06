@@ -11,7 +11,6 @@ class GameMap {
       width: Math.floor(CANVAS_WIDTH / 32) + 1/* - 1*/,
       height: Math.floor(CANVAS_HEIGHT / 32) + 1/* - 1*/,
     }
-    console.log(canvas.width)
   }
 
   getTileTexture() {

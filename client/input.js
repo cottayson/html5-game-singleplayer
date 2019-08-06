@@ -15,6 +15,8 @@ document
   .getElementById('canvas-id')
   .addEventListener('mousemove', (event) =>
   {
-    gameMap.camera.x = event.pageX
-    gameMap.camera.y = event.pageY
+    if (gameMap != undefined) {
+      gameMap.camera.x = event.pageX
+      gameMap.camera.y = event.pageY
+    }
   })
