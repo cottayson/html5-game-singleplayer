@@ -1,11 +1,11 @@
 class BuildManager {
-  constructor(buildProps) {
-    this.props = buildProps
+  constructor(textureMap) {
+    this.textureMap = textureMap
   }
 
   loadTextureMap() {
     console.log('loadTextureMap: ')
-    console.log(this.props.isLoaded())
-    console.log(this.props.getData())
+    console.log(this.textureMap.isLoaded())
+    console.log(this.textureMap.getData())
   }
 }
