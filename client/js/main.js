@@ -1,21 +1,17 @@
 const PATH_TO_IMAGES = '../images/'
 const PATH_TO_TEXTURES = '../textures/'
 const PATH_TO_BINARY_FILE = '../maps/atreides/map_07.bin'
-const imageNames = [
-  'earth.png', 'concrete.png', 'wall.png', 'sand.png',
-]
 
-const textureNames = [
-  'tex1.bmp', 'structures.bmp', 'landscape.png',
-]
+const imageNames = ['earth.png', 'concrete.png', 'wall.png', 'sand.png']
+const textureNames = ['tex1.bmp', 'structures.bmp', 'landscape.png']
 
+// singletons?:
 const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'build_texture_map.json')
 const buildManager = new BuildManager(buildTextureMap)
 const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
-// (imagesArray, width, height) 
-const gameMap = new GameMap(textureManager.images, 64, 64)
+const gameMap = new GameMap(textureManager.images/*imagesArray*/, 64/*width*/, 64/*height*/)
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
 
@@ -31,15 +27,14 @@ function setup() {
   ctx.imageSmoothingEnabled = false
 
   buildTextureMap.load(() => {
-    binaryLoader.load(onLoadMap, () => {
-      imageManager.load(onLoadImages)
-    })
+    binaryLoader.load(onLoadMap)
   })
 }
 
 function onLoadMap(arrayBufferMap) {
   const uint8Map = new Uint8Array(arrayBufferMap)
   gameMap.data = uint8Map
+  imageManager.load(onLoadImages)
 }
 
 // **** load graphics BEGIN ****
@@ -71,7 +66,7 @@ function draw() {
 
 function update(steps) {
   if (steps > 10) {
-    ctx.fillText('error update steps > 10', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
+    showMessage(ctx, 'error update steps > 10')
     checkError('steps > 10')
   }
 }

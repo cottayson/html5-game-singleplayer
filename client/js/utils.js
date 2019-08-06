@@ -15,3 +15,7 @@ function checkError(message) {
     console.error(message)
   }
 }
+
+function showMessage(ctx, message) {
+  ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
+}
