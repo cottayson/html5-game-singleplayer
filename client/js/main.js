@@ -6,7 +6,7 @@ const imageNames = ['earth.png', 'concrete.png', 'wall.png', 'sand.png']
 const textureNames = ['tex1.bmp', 'structures.bmp', 'landscape.png']
 
 // singletons?:
-const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'build_texture_map.json')
+const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'buildings_texture_mapping.json')
 const buildManager = new BuildManager(buildTextureMap)
 const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
