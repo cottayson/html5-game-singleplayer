@@ -32,8 +32,9 @@ function setup() {
 }
 
 function onLoadMap(arrayBufferMap) {
-  const uint8Map = new Uint8Array(arrayBufferMap)
-  gameMap.data = uint8Map
+  const uint8Map = new Uint8Array(arrayBufferMap) // convert buffer to 0..255
+  const uint16Map = new Uint16Array(uint8Map)
+  gameMap.data = uint16Map
   imageManager.load(onLoadImages)
 }
 
@@ -50,7 +51,7 @@ function onLoadTextures() {
 
 function onLoadGraphics() {
   console.log('all graphics loaded')
-  buildManager.loadTextureMap()
+  buildManager.loadTextureMapping()
   requestAnimationFrame(gameLoop);
   draw()
 }

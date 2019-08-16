@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  background-color: rgb(180, 144, 72);
   margin: 0;
   padding: 0;
   /* disable scroll */
@@ -12,7 +12,8 @@ canvas, img {
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
-  image-rendering: pixelated; /* работает для chrome */
+  image-rendering: pixelated;
+  /* работает для chrome */
   -ms-interpolation-mode: nearest-neighbor;
 }
 

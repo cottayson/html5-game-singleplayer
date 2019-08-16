@@ -1,3 +1,7 @@
+function randint(a, b) {
+  return Math.floor( a + Math.random() * (b - a + 1) )
+}
+
 function testLag() {
   let j = 0
   const count = 8000000
