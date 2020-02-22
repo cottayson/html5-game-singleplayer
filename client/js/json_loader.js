@@ -10,7 +10,7 @@ class JSONLoader {
     request.open("GET", this.pathToFile, true/*async*/)
     request.responseType = "text" // right is "json" but how handle error parseJson?
     request.onreadystatechange = () => {
-      if (request.readyState == REQUEST_READYSTATE_OK) {
+      if (request.readyState === REQUEST_READYSTATE_OK) {
         try {
           this.data = JSON.parse(request.response)
         } catch (err) {

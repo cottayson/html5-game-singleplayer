@@ -10,7 +10,6 @@ class BinaryLoader {
       request.onreadystatechange = () => {
         if (request.readyState == REQUEST_READYSTATE_OK) {
           onLoadHandler(request.mozResponseArrayBuffer || request.response) // your arrayBuffer
-          console.log('callback: ', doAfterLoad)
           if (doAfterLoad !== undefined) {
             doAfterLoad()
           }
