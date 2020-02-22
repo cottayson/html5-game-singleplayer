@@ -4,7 +4,7 @@ let isPlay = true
 let testingLag = false
 let isShowLag = false
 // *************************
-let SCALE_FACTOR = 0.5
+let SCALE_FACTOR = 2
 const TILE_SIZE = 32
 
 const REQUEST_READYSTATE_OK = 4

@@ -9,8 +9,8 @@ class GameMap {
     this.camera = {
       x: 0,
       y: 0,
-      width: Math.floor(CANVAS_WIDTH / 32) + 1/* - 1*/,
-      height: Math.floor(CANVAS_HEIGHT / 32) + 1/* - 1*/,
+      width: Math.floor(CANVAS_WIDTH / 32),
+      height: Math.floor(CANVAS_HEIGHT / 32),
     }
   }
 
@@ -58,17 +58,17 @@ class GameMap {
     const tileTexture = this.getTileTexture()
     const structuresTexture = this.getStructuresTexture()
     ctx.save()
-    //ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
+    ctx.scale(SCALE_FACTOR, SCALE_FACTOR)
     const testOffsetX = 0 // 32
     const testOffsetY = 0 // 32
-    const quotientX = Math.floor(this.camera.x / 32)
-    const quotientY = Math.floor(this.camera.y / 32)
-    const residueX = this.camera.x % 32
-    const residueY = this.camera.y % 32
+    const quotientX = Math.floor(this.camera.x / TILE_SIZE)
+    const quotientY = Math.floor(this.camera.y / TILE_SIZE)
+    const residueX = Math.floor(this.camera.x) % TILE_SIZE
+    const residueY = Math.floor(this.camera.y) % TILE_SIZE
     let textureSource = tileTexture
 
-    for (let i = 0; i < this.camera.height; i++) { // i номер строки
-      for (let j = 0; j < this.camera.width; j++) { // j номер столбца
+    for (let i = 0; i < this.camera.height / SCALE_FACTOR + 1; i++) { // i номер строки
+      for (let j = 0; j < this.camera.width / SCALE_FACTOR + 1; j++) { // j номер столбца
         const tileDestX = j + quotientX
         const tileDestY = i + quotientY
         if ( !(tileDestX >= 0 && tileDestX < this.width && tileDestY >= 0 && tileDestY < this.height) ) {

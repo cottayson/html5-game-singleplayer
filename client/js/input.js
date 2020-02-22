@@ -14,9 +14,24 @@ document.addEventListener('keydown', (event) => {
 })
 
 document.addEventListener('mousemove', (event) => {
-  const speed = 2
+  const cameraOffset = { x: 7, y: 15 };
+  const speed = 0.5
   if (gameMap != undefined) {
-    gameMap.camera.x = speed * event.pageX
-    gameMap.camera.y = speed * event.pageY
+    gameMap.camera.x = speed * event.pageX + cameraOffset.x * 32
+    gameMap.camera.y = speed * event.pageY + cameraOffset.y * 32
+  }
+})
+
+let mousePressed = false
+let mousePosition = {x: 0, y: 0}
+document.addEventListener('mousedown', (event) => {
+  if (gameMap != undefined) {
+    mousePressed = true
+  }
+})
+
+document.addEventListener('mouseup', (event) => {
+  if (gameMap != undefined) {
+    mousePressed = false
   }
 })
