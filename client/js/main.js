@@ -52,10 +52,10 @@ function onLoadTextures() {
 function onLoadGraphics() {
   console.log('all graphics loaded')
   buildManager.loadTextureMapping()
-  requestAnimationFrame(gameLoop);
-  draw()
+  onStart()
 }
 // **** load graphics END ****
+
 function draw() {
   if (testingLag) {
     testLag()
@@ -67,9 +67,11 @@ function draw() {
 
 function update(steps) {
   if (steps > 10) {
-    showMessage(ctx, 'error update steps > 10')
-    checkError('steps > 10')
+    showMessage(ctx, 'game paused due to steps > 10')
+    // checkError('steps > 10')
+    isPlay = false
   }
+  onUpdate(steps);
 }
 
 let lag = 0
@@ -96,8 +98,10 @@ function gameLoop(timeStamp) {
 
   if (isPlay) {
     update(steps)
+  }
+  // isPlay could be changed in update function
+  if (isPlay) {
     draw()
-    
   }
     
   lag -= steps * frameDuration
@@ -109,6 +113,8 @@ function gameLoop(timeStamp) {
   // }
   requestAnimationFrame(gameLoop);
 }
+
+
 
 window.addEventListener('load', function () {
   setup()
