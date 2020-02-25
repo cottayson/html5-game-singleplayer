@@ -56,6 +56,21 @@ function onLoadGraphics() {
 }
 // **** load graphics END ****
 
+function resizeCanvas(width, height) {
+  canvas.width = width
+  canvas.height = height
+
+  CANVAS_WIDTH = width
+  CANVAS_HEIGHT = height
+
+  ctx.webkitImageSmoothingEnabled = false
+  ctx.mozImageSmoothingEnabled = false
+  ctx.imageSmoothingEnabled = false
+
+  gameMap.camera.width = Math.floor(CANVAS_WIDTH / 32)
+  gameMap.camera.height = Math.floor(CANVAS_HEIGHT / 32)
+}
+
 function draw() {
   if (testingLag) {
     testLag()
@@ -77,6 +92,8 @@ function update(steps) {
 let lag = 0
 let oldTimeStamp = undefined
 const frameDuration = 1000 / 60
+let drawSteps = 1
+let globalSteps = 0
 
 function gameLoop(timeStamp) {
   // requestAnimationFrame(gameLoop)
@@ -98,10 +115,13 @@ function gameLoop(timeStamp) {
 
   if (isPlay) {
     update(steps)
+    globalSteps++
   }
   // isPlay could be changed in update function
   if (isPlay) {
-    draw()
+    if (globalSteps % drawSteps === 0) {
+      draw()
+    }
   }
     
   lag -= steps * frameDuration
@@ -111,6 +131,7 @@ function gameLoop(timeStamp) {
     }
   }
   // }
+  
   requestAnimationFrame(gameLoop);
 }
 

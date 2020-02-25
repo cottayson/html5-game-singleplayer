@@ -12,8 +12,7 @@ class BuildManager {
   }
 
   loadTextureMapping() {
-    console.log('loadTextureMapping: ')
-    console.log(this.textureMapping.isLoaded())
+    console.log('loadTextureMapping:', this.textureMapping.isLoaded())
     const jsonTextureData = this.textureMapping.getData()
     gameMap.camera.x = 7 * 32
     gameMap.camera.y = 15 * 32

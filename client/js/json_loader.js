@@ -20,10 +20,10 @@ class JSONLoader {
 
         this.loaded = true
         // this.data = request.response
-        console.log('json data loaded:')
-        console.log(this.data)
+        // console.log('json data loaded:')
+        // console.log(this.data)
 
-        console.log('callback: ', doAfterLoad)
+        // console.log('callback: ', doAfterLoad)
         if (doAfterLoad !== undefined) {
           doAfterLoad()
         }

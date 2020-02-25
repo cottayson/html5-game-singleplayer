@@ -19,7 +19,7 @@ class ImageManager {
     // why function() does not work?
     img.onload = () => {
       this.countImageFiles++
-      console.log(`load image ${img.src}`)
+      // console.log(`load image ${img.src}`)
       if (this.countImageFiles == numberOfPictures) {
         handleLoadImages()
       }

@@ -4,6 +4,7 @@ function onStart() {
   console.log(gameMap.camera)
   requestAnimationFrame(gameLoop)
   draw()
+  console.log(`innerWidth = ${innerWidth}, innerHeight = ${innerHeight}`)
 }
 
 function onUpdate(steps) {
@@ -11,6 +12,6 @@ function onUpdate(steps) {
   // gameMap.camera.x += 1;
 }
 
-document.addEventListener("DOMContentLoaded", function (event) {
-  console.log("--- DOM fully loaded and parsed ---");
-})
+// document.addEventListener("DOMContentLoaded", function (event) {
+//   console.log("--- DOM fully loaded and parsed ---");
+// })
