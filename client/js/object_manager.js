@@ -105,7 +105,7 @@ class ObjectManager {
 function getDestroyedBuildingTexPos(w, h, unitType) {
   let pos = destroyed_buildings_mapping[w-1][h-1]
   if (pos === undefined) {
-    throw "this (w, h) is undefined"
+    throw `destroyed_buildings_mapping[${w-1}][${h-1}] is undefined`
   } else {
     if (unitType === "wall") {
       return {x: 9, y: 3}
