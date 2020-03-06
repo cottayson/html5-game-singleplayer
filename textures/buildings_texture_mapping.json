@@ -14,7 +14,7 @@
     "construction_yard": {
         "x": 10, "y": 0, "w": 2, "h": 2
     },
-    "powerstation": {
+    "windtrap": {
         "x": 12, "y": 0, "w": 2, "h": 2
     },
     "refinery": {

@@ -24,7 +24,7 @@ class BuildManager {
     const concrete = jsonTextureData["concrete"]
     const rocket_turret = jsonTextureData["rocket_turret"]
     const construction_yard = jsonTextureData["construction_yard"]
-    const powerstation = jsonTextureData["powerstation"]
+    const windtrap = jsonTextureData["windtrap"]
 
     for (let j = 0; j < 10; j++) {
       for (let i = 12; i < 20; i++) {
@@ -35,7 +35,7 @@ class BuildManager {
     this.placeBuilding(palace, 10, 20)
     this.placeBuilding(factory, 15, 21)
     this.placeBuilding(construction_yard, 15, 24)
-    this.placeBuilding(powerstation, 18, 24)
+    this.placeBuilding(windtrap, 18, 24)
     this.placeBuilding(refinery, 15, 27)
     for (let i = 19; i < 29; i++) {
       this.placeBuilding(wall, 13, i)
