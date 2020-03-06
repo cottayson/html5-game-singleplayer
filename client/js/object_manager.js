@@ -55,23 +55,26 @@ class Unit extends DefaultUnit {
     this.needDelete = true
   }
 
-  updateTime() {
+  updateTime(steps) {
     if (this.timeCount <= 0) {
       console.log('timer exceeded ' + this.timeCount)
       this.timerEnabled = false
       this.timerCallback()
     }
-    this.timeCount -= 1
+    this.timeCount -= steps
+    if (steps > 1) {
+      console.log('steps = ' + steps)
+    } 
   }
 
-  update() {
+  update(steps) {
     if (this.needUpdate) {
-      console.log("update unit")
+      console.log("update unit " + this.unitType)
       this.buildManager.placeBuilding(this.building, this.pos.x, this.pos.y)
       this.needUpdate = false
     }
     if (this.timerEnabled) {
-      this.updateTime()
+      this.updateTime(steps)
     }
   }
 }
@@ -81,9 +84,9 @@ class ObjectManager {
     this.units = []
   }
 
-  update() {
+  update(steps) {
     for (let unit of this.units) {
-      unit.update()
+      unit.update(steps)
     }
     this.deleteUnits()
   }

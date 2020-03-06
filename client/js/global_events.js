@@ -27,7 +27,7 @@ function onStart() {
 function onUpdate(steps) {
   //console.log('onUpdate ' + steps);
   // gameMap.camera.x += 1;
-  objectManager.update()
+  objectManager.update(steps)
 }
 
 // document.addEventListener("DOMContentLoaded", function (event) {
