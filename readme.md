@@ -17,6 +17,10 @@ http://romhacking.ru/news/dunehack_rebuild_r80b_smd/2015-07-26-3122
     3. когда ставлю на паузу перед переходом на другую вкладку "enter" ошибка не возникает, значит можно автоматически ставить игру на паузу!
 
 - иногда в консоли видна ошибка загрузки gameMap
+Uncaught ReferenceError: gameMap is not defined
+    at HTMLDocument.<anonymous> (input.js:19)
+
+- need destroyed wall texture to structures.bmp
 
 # TODO:
 
