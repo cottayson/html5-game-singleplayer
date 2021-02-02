@@ -13,7 +13,7 @@ canvas, img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
   image-rendering: pixelated;
-  /* работает для chrome */
+  /* works for chrome borwser */
   -ms-interpolation-mode: nearest-neighbor;
 }
 

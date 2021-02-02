@@ -1,99 +1,105 @@
-const PATH_TO_IMAGES = '../images/'
-const PATH_TO_TEXTURES = '../textures/'
-const PATH_TO_BINARY_FILE = '../maps/atreides/map_07.bin'
+const PATH_TO_IMAGES = '../images/';
+const PATH_TO_TEXTURES = '../textures/';
+const PATH_TO_BINARY_FILE = '../maps/atreides/map_07.bin';
 
-const imageNames = ['earth.png', 'concrete.png', 'wall.png', 'sand.png']
-const textureNames = ['tex1.bmp', 'structures.bmp', 'landscape.png']
+const imageNames = ['earth.png', 'concrete.png', 'wall.png', 'sand.png'];
+const textureNames = ['tex1.bmp', 'structures.bmp', 'landscape.png'];
 
 // singletons?:
-const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'buildings_texture_mapping.json')
-const buildManager = new BuildManager(buildTextureMap)
-const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames)
-const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames)
-const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE)
-const gameMap = new GameMap(textureManager.images/*imagesArray*/, 64/*width*/, 64/*height*/)
+const buildTextureMap = new JSONLoader(PATH_TO_TEXTURES + 'buildings_texture_mapping.json');
+const buildManager = new BuildManager(buildTextureMap);
+const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames);
+const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames);
+const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE);
+let gameMap = undefined;
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
 
+function setupCanvasElement() {
+  ctx.font = '12px consolas';
+  ctx.fillStyle = 'rgb(255, 255, 255)';
+
+  ctx.webkitImageSmoothingEnabled = false;
+  ctx.mozImageSmoothingEnabled = false;
+  ctx.imageSmoothingEnabled = false;
+}
+
 function setup() {
-  canvas.width = CANVAS_WIDTH
-  canvas.height = CANVAS_HEIGHT
+  canvas.width = CANVAS_WIDTH;
+  canvas.height = CANVAS_HEIGHT;
 
-  ctx.font = '12px consolas'
-  ctx.fillStyle = 'rgb(255, 255, 255)'
-
-  ctx.webkitImageSmoothingEnabled = false
-  ctx.mozImageSmoothingEnabled = false
-  ctx.imageSmoothingEnabled = false
+  setupCanvasElement();
 
   buildTextureMap.load(() => {
-    binaryLoader.load(onLoadMap)
+    gameMap = new GameMap(textureManager.images, 64, 64);
+    binaryLoader.load(onLoadMap);
   })
 }
 
 function onLoadMap(arrayBufferMap) {
-  const uint8Map = new Uint8Array(arrayBufferMap) // convert buffer to 0..255
-  const uint16Map = new Uint16Array(uint8Map)
-  gameMap.data = uint16Map
-  imageManager.load(onLoadImages)
+  const uint8Map = new Uint8Array(arrayBufferMap); // convert buffer to 0..255
+  const uint16Map = new Uint16Array(uint8Map);
+  if (gameMap === undefined) {
+    throw new Error("gameMap is undefined");
+  }
+  gameMap.data = uint16Map;
+  imageManager.load(onLoadImages);
 }
 
 // **** load graphics BEGIN ****
 function onLoadImages() {
-  console.log('Images loaded')
-  textureManager.load(onLoadTextures)
+  console.log('Images loaded');
+  textureManager.load(onLoadTextures);
 }
 
 function onLoadTextures() {
-  console.log('textures loaded')
-  onLoadGraphics()
+  console.log('textures loaded');
+  onLoadGraphics();
 }
 
 function onLoadGraphics() {
-  console.log('all graphics loaded')
-  buildManager.loadTextureMapping()
-  onStart()
+  console.log('all graphics loaded');
+  buildManager.loadTextureMapping();
+  setupInput();
+  onStart();
 }
 // **** load graphics END ****
 
 function resizeCanvas(width, height) {
-  canvas.width = width
-  canvas.height = height
+  canvas.width = width;
+  canvas.height = height;
 
-  CANVAS_WIDTH = width
-  CANVAS_HEIGHT = height
+  CANVAS_WIDTH = width;
+  CANVAS_HEIGHT = height;
 
-  ctx.webkitImageSmoothingEnabled = false
-  ctx.mozImageSmoothingEnabled = false
-  ctx.imageSmoothingEnabled = false
+  setupCanvasElement();
 
-  gameMap.camera.width = Math.floor(CANVAS_WIDTH / 32)
-  gameMap.camera.height = Math.floor(CANVAS_HEIGHT / 32)
+  gameMap.camera.width = Math.floor(CANVAS_WIDTH / 32);
+  gameMap.camera.height = Math.floor(CANVAS_HEIGHT / 32);
 }
 
 function draw() {
-  if (testingLag) {
-    testLag()
-  }
+  if (testingLag) { testLag() }
   
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  gameMap.draw(ctx)
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (gameMap === undefined) throw new Error("Game map is undefined");
+  gameMap.draw(ctx);
 }
 
 function update(steps) {
   if (steps > 10) {
-    showMessage(ctx, 'game paused due to steps > 10')
+    showMessage(ctx, 'game paused due to steps > 10');
     // checkError('steps > 10')
-    isPlay = false
+    isPlay = false;
   }
   onUpdate(steps);
 }
 
-let lag = 0
-let oldTimeStamp = undefined
-const frameDuration = 1000 / 60
-let drawSteps = 1
-let globalSteps = 0
+let lag = 0;
+let oldTimeStamp = undefined;
+const frameDuration = 1000 / 60;
+let drawSteps = 1;
+let globalSteps = 0;
 
 function gameLoop(timeStamp) {
   // requestAnimationFrame(gameLoop)
@@ -101,33 +107,33 @@ function gameLoop(timeStamp) {
 
   // Pass the time to the update
   // if (isPlay) {
-  let dt = undefined
+  let dt = undefined;
   if (oldTimeStamp !== undefined) {
-    dt = timeStamp - oldTimeStamp
+    dt = timeStamp - oldTimeStamp;
   } else {
-    dt = frameDuration
+    dt = frameDuration;
   }
-  oldTimeStamp = timeStamp
+  oldTimeStamp = timeStamp;
 
-  lag += dt
+  lag += dt;
 
-  let steps = Math.floor(lag / frameDuration)
+  let steps = Math.floor(lag / frameDuration);
 
   if (isPlay) {
-    update(steps)
-    globalSteps++
+    update(steps);
+    globalSteps++;
   }
   // isPlay could be changed in update function
   if (isPlay) {
     if (globalSteps % drawSteps === 0) {
-      draw()
+      draw();
     }
   }
     
-  lag -= steps * frameDuration
+  lag -= steps * frameDuration;
   if (isPlay) {
     if (isShowLag) {
-      console.log(steps, lag)
+      console.log(steps, lag);
     }
   }
   // }
@@ -138,5 +144,5 @@ function gameLoop(timeStamp) {
 
 
 window.addEventListener('load', function () {
-  setup()
-})
+  setup();
+});

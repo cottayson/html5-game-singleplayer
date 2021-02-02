@@ -1,25 +1,33 @@
+function assert(boolean_value) {
+  if (boolean_value === true) {
+    return boolean_value;
+  } else {
+    throw "Assertion Error";
+  }
+}
+
 function randint(a, b) {
-  return Math.floor( a + Math.random() * (b - a + 1) )
+  return Math.floor(a + Math.random() * (b - a + 1));
 }
 
 function testLag() {
-  let j = 0
-  const count = 8000000
+  let j = 0;
+  const count = 8000000;
   for (let i = 0; i < count; i++) {
-      j = i * i + Math.sqrt(i)
+    j = i * i + Math.sqrt(i);
   }
-  console.log(j)
+  console.log(j);
 }
   
   
 function checkError(message) {
   if (isDebug) {
-    throw new Error(message)
+    throw new Error(message);
   } else {
-    console.error(message)
+    console.error(message);
   }
 }
 
 function showMessage(ctx, message) {
-  ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
+  ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
 }

@@ -1,0 +1,20 @@
+{
+  "mcv": {"armor": 300, "damage": null, "bullets": null},
+  "harvester": {"armor": 300, "damage": null, "bullets": null},
+
+  "soldier": {"armor": 20, "damage": 4, "bullets": 1},
+  "soldiers": {"armor": 50, "damage": 4, "bullets": 2},
+  "trooper": {"armor": 45, "damage": 8, "bullets": 1},
+  "troopers": {"armor": 110, "damage": 8, "bullets": 2},
+
+  "trike": {"armor": 100, "damage": 8, "bullets": 2},
+  "raider_trike": {"armor": 100, "damage": 8, "bullets": 2},
+  "quad": {"armor": 130, "damage": 10, "bullets": 2},
+  "tank": {"armor": 200, "damage": 38, "bullets": 1},
+  "siege_tank": {"armor": 300, "damage": 45, "bullets": 2},
+  "launcher": {"armor": 100, "damage": 112, "bullets": 2},
+  
+  "sonic_tank": {"armor": 110, "damage": 90, "bullets": 1},
+  "deviator": {"armor": 120, "damage": 0, "bullets": 1},
+  "devastator": {"armor": 400, "damage": 60, "bullets": 2}
+}
