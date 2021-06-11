@@ -1,10 +1,12 @@
 class GameMap {
+  static MAX_TILE_ID = 512;
+
   constructor(textures, width, height) {
     this.textureSizeInTiles = 16;
     this.textures = textures; // source
     this.width = width;
     this.height = height;
-    this.data = new Uint16Array();
+    this.data = new Uint16Array(0);
     // позиция камеры должна различаеться на один пиксель т.е. 1/32 размера тайла
     this.camera = {
       x: 0,
@@ -30,8 +32,12 @@ class GameMap {
     return this.data.length > 0;
   }
 
-  setTile(id, x, y) {
-    this.data[y * this.width + x] = id;
+  getTile(x, y) {
+    return this.data[y * this.width + x];
+  }
+
+  setTile(tileId, x, y) {
+    this.data[y * this.width + x] = tileId;
   }
 
   randomizeMap(leftTileId, rightTileId) {
@@ -74,9 +80,10 @@ class GameMap {
         if ( !(tileDestX >= 0 && tileDestX < this.width && tileDestY >= 0 && tileDestY < this.height) ) {
           continue;
         }
-        const tileId = this.data[tileDestY * this.width + tileDestX];
-        if (tileId < 0) {
-          throw Error("tileId < 0");
+        const tileId = this.getTile(tileDestX, tileDestY);
+
+        if (tileId < 0 || tileId > GameMap.MAX_TILE_ID) {
+          throw new Error(`tileId not in range: [0..${GameMap.MAX_TILE_ID}]`);
         }
 
         const tileSourceX = tileId % this.textureSizeInTiles; // 0 <= id <= 255 
@@ -90,7 +97,6 @@ class GameMap {
           tileSourceY = Math.floor((tileId - 256) / this.textureSizeInTiles);
         }
         
-
         ctx.drawImage(
           textureSource, // CanvasImageSource
           TILE_SIZE * tileSourceX, TILE_SIZE * tileSourceY, //  sx: number, sy: number

@@ -43,6 +43,7 @@ function onLoadMap(arrayBufferMap) {
     throw new Error("gameMap is undefined");
   }
   gameMap.data = uint16Map;
+  gameMap.data_stored = copy2DArray(uint16Map);
   imageManager.load(onLoadImages);
 }
 

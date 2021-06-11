@@ -1,47 +1,18 @@
 {
-    "palace": {
-        "x": 0, "y": 0, "w": 3, "h": 3
-    },
-    "factory": {
-        "x": 3, "y": 0, "w": 3, "h": 2
-    },
-    "hi-tech": {
-        "x": 6, "y": 0, "w": 2, "h": 2
-    },
-    "barracks": {
-        "x": 8, "y": 0, "w": 2, "h": 2
-    },
-    "construction_yard": {
-        "x": 10, "y": 0, "w": 2, "h": 2
-    },
-    "windtrap": {
-        "x": 12, "y": 0, "w": 2, "h": 2
-    },
-    "refinery": {
-        "x": 3, "y": 2, "w": 3, "h": 2
-    },
-    "repair": {
-        "x": 6, "y": 2, "w": 3, "h": 2
-    },
-    "concrete": {
-        "x": 14, "y": 0, "w": 1, "h": 1
-    },
-    "wall": {
-        "x": 9, "y": 2, "w": 1, "h": 1
-    },
-    "turret": {
-        "x": 10, "y": 2, "w": 1, "h": 1
-    },
-    "rocket_turret": {
-        "x": 11, "y": 2, "w": 1, "h": 1
-    },
-    "spice_silo": {
-        "x": 12, "y": 2, "w": 2, "h": 2
-    },
-    "outpost": {
-        "x": 14, "y": 2, "w": 2, "h": 2
-    },
-    "starport": {
-        "x": 0, "y": 3, "w": 3, "h": 3
-    }
+  "palace":                {"w": 3, "h": 3, "positions": [{"x":  0, "y": 0}, {"x": 13, "y": 4}, {"x": 0, "y": 6}]},
+  "starport":              {"w": 3, "h": 3, "positions": [{"x":  0, "y": 3}, {"x": 13, "y": 4}, {"x": 0, "y": 6}]},
+  "light_vehicle_factory": {"w": 3, "h": 2, "positions": [{"x":  3, "y": 0}, {"x": 8, "y": 4}, {"x": 3, "y": 4}]},
+  "heavy_vehicle_factory": {"w": 3, "h": 2, "positions": [{"x":  3, "y": 0}, {"x": 8, "y": 4}, {"x": 3, "y": 4}]},
+  "refinery":              {"w": 3, "h": 2, "positions": [{"x":  3, "y": 2}, {"x": 8, "y": 4}, {"x": 3, "y": 4}]},
+  "repair":                {"w": 3, "h": 2, "positions": [{"x":  6, "y": 2}, {"x": 8, "y": 4}, {"x": 3, "y": 4}]},
+  "hi-tech":               {"w": 2, "h": 2, "positions": [{"x":  6, "y": 0}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "barracks":              {"w": 2, "h": 2, "positions": [{"x":  8, "y": 0}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "construction_yard":     {"w": 2, "h": 2, "positions": [{"x": 10, "y": 0}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "windtrap":              {"w": 2, "h": 2, "positions": [{"x": 12, "y": 0}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "spice_silo":            {"w": 2, "h": 2, "positions": [{"x": 12, "y": 2}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "outpost":               {"w": 2, "h": 2, "positions": [{"x": 14, "y": 2}, {"x": 11, "y": 4}, {"x": 6, "y": 4}]},
+  "concrete":              {"w": 1, "h": 1, "positions": [{"x": 14, "y": 0}, {"x": 14, "y": 0}, {"x": 15, "y": 0}]},
+  "wall":                  {"w": 1, "h": 1, "positions": [{"x":  9, "y": 2}, {"x":  9, "y": 2}, { "x": 9, "y": 3}]},
+  "turret":                {"w": 1, "h": 1, "positions": [{"x": 10, "y": 2}, {"x": 10, "y": 3}, {"x": 11, "y": 3}]},
+  "rocket_turret":         {"w": 1, "h": 1, "positions": [{"x": 11, "y": 2}, {"x": 10, "y": 3}, {"x": 11, "y": 3}]}
 }

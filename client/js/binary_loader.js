@@ -9,6 +9,7 @@ class BinaryLoader {
       request.responseType = "arraybuffer"; // the important part
       request.onreadystatechange = () => {
         if (request.readyState === REQUEST_READYSTATE_OK) {
+          // @ts-ignore
           onLoadHandler(request.mozResponseArrayBuffer || request.response); // your arrayBuffer
           if (doAfterLoad !== undefined) {
             doAfterLoad();

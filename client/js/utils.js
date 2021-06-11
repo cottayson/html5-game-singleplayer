@@ -1,3 +1,6 @@
+/**
+ * @param {boolean} boolean_value
+ */
 function assert(boolean_value) {
   if (boolean_value === true) {
     return boolean_value;
@@ -6,6 +9,10 @@ function assert(boolean_value) {
   }
 }
 
+/**
+ * @param {number} a
+ * @param {number} b
+ */
 function randint(a, b) {
   return Math.floor(a + Math.random() * (b - a + 1));
 }
@@ -20,6 +27,9 @@ function testLag() {
 }
   
   
+/**
+ * @param {string | undefined} message
+ */
 function checkError(message) {
   if (isDebug) {
     throw new Error(message);
@@ -28,6 +38,31 @@ function checkError(message) {
   }
 }
 
+/**
+ * @param {{ fillText: (arg0: any, arg1: number, arg2: number) => void; }} ctx
+ * @param {string} message
+ */
 function showMessage(ctx, message) {
   ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+}
+
+/**
+ * @param {any[] | Uint16Array} a
+ */
+function copy2DArray(a) {
+  let temp = undefined;
+  // @ts-ignore
+  if (a.constructor.name === "Uint16Array") {
+    temp = new Uint16Array(a.length);
+    // @ts-ignore
+  } else if(a.constructor.name === "Uint32Array") {
+    temp = new Uint32Array(a.length);
+    // @ts-ignore
+  } else if(a.constructor.name === "Array") {
+    temp = new Array(a.length);
+  } else {
+    throw new Error("Unsupported array type");
+  }
+  for (let i = 0; i < a.length; ++i) temp[i] = a[i];
+  return temp;
 }

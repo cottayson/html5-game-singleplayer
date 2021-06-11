@@ -34,4 +34,10 @@ function setupInput() {
       mousePressed = false;
     }
   });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key.toLowerCase() === "r") {
+      onRestart();
+    }
+  })
 }

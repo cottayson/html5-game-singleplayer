@@ -4,13 +4,13 @@ let isPlay = true;
 let testingLag = false;
 let isShowLag = false;
 // *************************
-let SCALE_FACTOR = 2;
+let SCALE_FACTOR = 3;
 const TILE_SIZE = 32;
 
 const REQUEST_READYSTATE_OK = 4;
 
-let CANVAS_WIDTH = 1024; // 1024 // 800
-let CANVAS_HEIGHT = 1024; // 768 // 640
+let CANVAS_WIDTH = 900; // 1024 // 800
+let CANVAS_HEIGHT = 900; // 768 // 640
 
 let destroyed_buildings_mapping = [
   [{x:11, y:3}], // w = 1 => h = 1
@@ -18,5 +18,13 @@ let destroyed_buildings_mapping = [
   [undefined, {x:3, y:4}, {x:0, y:6}], // w = 3 => h in [2, 3]
 ]
 
+/** @type {HTMLCanvasElement | null} */
+// @ts-ignore
 const canvas = document.getElementById('canvas-id');
-const ctx = canvas.getContext('2d');
+let ctx = undefined;
+if (canvas === null) {
+  throw new Error("Canvas not found.");
+} else {
+  ctx = canvas.getContext('2d');
+}
+
