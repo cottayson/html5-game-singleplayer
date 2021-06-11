@@ -1,11 +1,19 @@
 class ImageManager {
+  /**
+   * @param {string} pathToImages
+   * @param {string[]} names
+   */
   constructor(pathToImages, names) {
     this.path = pathToImages;
     this.names = names;
     this.countImageFiles = 0;
+    /** @type {HTMLImageElement[]} */
     this.images = [];
   }
 
+  /**
+   * @param {() => void} handleLoadImages
+   */
   load(handleLoadImages) {
     this.countImageFiles = 0;
     for (let i = 0; i < this.names.length; i++) {
@@ -15,6 +23,12 @@ class ImageManager {
     }
   }
 
+  /**
+   * @param {HTMLImageElement} img
+   * @param {string} name
+   * @param {number} numberOfPictures
+   * @param {() => void} handleLoadImages
+   */
   setImageSrc(img, name, numberOfPictures, handleLoadImages) {
     // why function() does not work?
     img.onload = () => {

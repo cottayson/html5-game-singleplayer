@@ -1,10 +1,16 @@
 class JSONLoader {
+  /**
+   * @param {string} pathToFile
+   */
   constructor(pathToFile) {
     this.pathToFile = pathToFile;
     this.data = null;
     this.loaded = false;
   }
 
+  /**
+   * @param {() => void | undefined} doAfterLoad
+   */
   load(doAfterLoad) {
     const request = new XMLHttpRequest();
     request.open("GET", this.pathToFile, true/*async*/);

@@ -11,7 +11,9 @@ const buildManager = new BuildManager(buildTextureMap);
 const imageManager = new ImageManager(PATH_TO_IMAGES, imageNames);
 const textureManager = new ImageManager(PATH_TO_TEXTURES, textureNames);
 const binaryLoader = new BinaryLoader(PATH_TO_BINARY_FILE);
-let gameMap = undefined;
+
+/** @type {GameMap} */
+let gameMap;
 // imageId, width, height
 // let sprite = new Sprite(0, 128, 128)
 
@@ -19,7 +21,9 @@ function setupCanvasElement() {
   ctx.font = '12px consolas';
   ctx.fillStyle = 'rgb(255, 255, 255)';
 
+  // @ts-ignore
   ctx.webkitImageSmoothingEnabled = false;
+  // @ts-ignore
   ctx.mozImageSmoothingEnabled = false;
   ctx.imageSmoothingEnabled = false;
 }
@@ -36,6 +40,9 @@ function setup() {
   })
 }
 
+/**
+ * @param {ArrayBuffer} arrayBufferMap
+ */
 function onLoadMap(arrayBufferMap) {
   const uint8Map = new Uint8Array(arrayBufferMap); // convert buffer to 0..255
   const uint16Map = new Uint16Array(uint8Map);
@@ -43,6 +50,7 @@ function onLoadMap(arrayBufferMap) {
     throw new Error("gameMap is undefined");
   }
   gameMap.data = uint16Map;
+  // @ts-ignore
   gameMap.data_stored = copy2DArray(uint16Map);
   imageManager.load(onLoadImages);
 }
@@ -66,6 +74,10 @@ function onLoadGraphics() {
 }
 // **** load graphics END ****
 
+/**
+ * @param {number} width
+ * @param {number} height
+ */
 function resizeCanvas(width, height) {
   canvas.width = width;
   canvas.height = height;
@@ -87,6 +99,7 @@ function draw() {
   gameMap.draw(ctx);
 }
 
+/** @param {number} steps */
 function update(steps) {
   if (steps > 10) {
     showMessage(ctx, 'game paused due to steps > 10');
@@ -97,11 +110,14 @@ function update(steps) {
 }
 
 let lag = 0;
-let oldTimeStamp = undefined;
+let oldTimeStamp = -1;
 const frameDuration = 1000 / 60;
 let drawSteps = 1;
 let globalSteps = 0;
 
+/**
+ * @param {number} timeStamp
+ */
 function gameLoop(timeStamp) {
   // requestAnimationFrame(gameLoop)
   // Calculate how much time has passed
@@ -109,7 +125,7 @@ function gameLoop(timeStamp) {
   // Pass the time to the update
   // if (isPlay) {
   let dt = undefined;
-  if (oldTimeStamp !== undefined) {
+  if (oldTimeStamp !== -1) {
     dt = timeStamp - oldTimeStamp;
   } else {
     dt = frameDuration;
@@ -141,8 +157,6 @@ function gameLoop(timeStamp) {
   
   requestAnimationFrame(gameLoop);
 }
-
-
 
 window.addEventListener('load', function () {
   setup();

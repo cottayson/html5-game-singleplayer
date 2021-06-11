@@ -1,12 +1,27 @@
 class BuildManager {
+  /** Starting texture index for `structures.bmp` image. */
+  static STRUCTURES_TEXTURE_INDEX = 256;
+
+  /**
+   * @param {JSONLoader} textureMapping 
+   */
   constructor(textureMapping) {
     this.textureMapping = textureMapping;
   }
 
+  /**
+   * @param {{ x: number; y: number; }} texturePos
+   * @private
+   */
   _getId(texturePos) {
-    return 256 + texturePos.x + texturePos.y * 16;
+    return BuildManager.STRUCTURES_TEXTURE_INDEX + texturePos.x + texturePos.y * 16;
   }
 
+  /**
+   * @param {Unit} unit
+   * @param {number} x
+   * @param {number} y
+   */
   placeBuilding(unit, x, y) {
     const rect = unit.spriteSource;
     if (unit.drawingState < 0 || unit.drawingState >= rect.positions.length) {

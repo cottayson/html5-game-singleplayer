@@ -26,7 +26,6 @@ function testLag() {
   console.log(j);
 }
   
-  
 /**
  * @param {string | undefined} message
  */
@@ -47,7 +46,9 @@ function showMessage(ctx, message) {
 }
 
 /**
- * @param {any[] | Uint16Array} a
+ * @todo How to declare that output type `=` input type?
+ * @param {any[] | Uint16Array | Uint32Array} a
+ * @returns {any[] | Uint16Array | Uint32Array}
  */
 function copy2DArray(a) {
   let temp = undefined;

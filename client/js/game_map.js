@@ -1,12 +1,23 @@
 class GameMap {
-  static MAX_TILE_ID = 512;
+  /** Size of `tex1.bmp` in tiles */
+  static LANDSCAPE_TEXTURE_SIZE = 256;
+  /** Size of `structures.bmp.bmp` in tiles */
+  static SCTRUCTURES_TEXTURE_SIZE = 256;
+  /** Upper bound for `tileId` type */
+  static MAX_TILE_ID = GameMap.SCTRUCTURES_TEXTURE_SIZE + GameMap.LANDSCAPE_TEXTURE_SIZE;
 
+  /**
+   * @param {HTMLImageElement[]} textures
+   * @param {number} width width of the map
+   * @param {number} height height of the map
+   */
   constructor(textures, width, height) {
-    this.textureSizeInTiles = 16;
+    this.textureSizeInTiles = SCTRUCTURES_TEXTURE_WIDTH;
     this.textures = textures; // source
     this.width = width;
     this.height = height;
     this.data = new Uint16Array(0);
+    this.data_stored = new Uint16Array(0);
     // позиция камеры должна различаеться на один пиксель т.е. 1/32 размера тайла
     this.camera = {
       x: 0,
@@ -24,28 +35,53 @@ class GameMap {
     return this.textures[1];
   }
 
+  /**
+   * @param {ArrayLike<number> | ArrayBuffer} inputArray
+   */
   fromArray(inputArray) {
     this.data = new Uint16Array(inputArray);
   }
 
+  /** Checks that data is loaded.
+   * If `GameMap.data` is not loaded, it is an empty array `[]` */
   isLoaded() {
     return this.data.length > 0;
   }
 
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
   getTile(x, y) {
     return this.data[y * this.width + x];
   }
 
+  /**
+   * @param {number} tileId number in range `[0..65535]`
+   * @param {number} x
+   * @param {number} y
+   */
   setTile(tileId, x, y) {
     this.data[y * this.width + x] = tileId;
   }
 
+  /**
+   * @param {number} leftTileId minimum tile id
+   * @param {number} rightTileId maximum tile id
+   */
   randomizeMap(leftTileId, rightTileId) {
     for(let i = 0; i < this.data.length; i++) {
       this.data[i] = randint(leftTileId, rightTileId);
     }
   }
 
+  /**
+   * @param {number} sourceId
+   * @param {number} width
+   * @param {number} height
+   * @param {number} x
+   * @param {number} y
+   */
   setBuildTiles(sourceId, width, height, x, y) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
@@ -54,6 +90,7 @@ class GameMap {
     }
   }
 
+  /** @param {CanvasRenderingContext2D} ctx */
   draw(ctx) {
     if (this.isLoaded() === false) {
       throw new Error('data not loaded');
@@ -89,12 +126,12 @@ class GameMap {
         const tileSourceX = tileId % this.textureSizeInTiles; // 0 <= id <= 255 
         let tileSourceY = undefined;
 
-        if (tileId < 256) {
+        if (tileId < GameMap.LANDSCAPE_TEXTURE_SIZE) {
           textureSource = tileTexture;
           tileSourceY = Math.floor(tileId / this.textureSizeInTiles);
         } else {
           textureSource = structuresTexture;
-          tileSourceY = Math.floor((tileId - 256) / this.textureSizeInTiles);
+          tileSourceY = Math.floor((tileId - GameMap.LANDSCAPE_TEXTURE_SIZE) / this.textureSizeInTiles);
         }
         
         ctx.drawImage(

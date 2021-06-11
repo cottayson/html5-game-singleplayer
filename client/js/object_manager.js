@@ -1,5 +1,3 @@
-// @ts-check
-
 const DRAWING_STATE = {
   normal: 0,
   under_construction: 1,
@@ -12,19 +10,39 @@ const UNIT_CATEGORY = {
   particle: 2,
 }
 
+/** @todo We can generate it from `buildings_props.json` dynamically or using nodejs script */
+const UNIT_TYPE = {
+  palace:                "palace"               ,
+  starport:              "starport"             ,
+  light_vehicle_factory: "light_vehicle_factory",
+  heavy_vehicle_factory: "heavy_vehicle_factory",
+  refinery:              "refinery"             ,
+  repair:                "repair"               ,
+  hi_tech:               "hi-tech"              ,
+  barracks:              "barracks"             ,
+  construction_yard:     "construction_yard"    ,
+  windtrap:              "windtrap"             ,
+  spice_silo:            "spice_silo"           ,
+  outpost:               "outpost"              ,
+  concrete:              "concrete"             ,
+  wall:                  "wall"                 ,
+  turret:                "turret"               ,
+  rocket_turret:         "rocket_turret"        ,
+}
+
 class DefaultUnit {  
   constructor() {
     this.armor = 100;
     this.damage = 1;
     this.pos = { x: 0, y: 0 };
     this.category = UNIT_CATEGORY.building;
-    this.unitType = "refinery";
+    this.unitType = UNIT_TYPE.refinery;
     this.needDelete = false;
     /** animation */
     this.needUpdate = true;
     this._drawingState = DRAWING_STATE.normal;
     this.timeCount = 0;
-    this.timerCallback = () => { console.warn("timerCallback nnot specified"); };
+    this.timerCallback = () => { console.warn("timerCallback not specified"); };
   }
 
   get drawingState() {
@@ -38,6 +56,12 @@ class DefaultUnit {
 }
 
 class Unit extends DefaultUnit {
+  /**
+   * @param {GameMap} mapObject 
+   * @param {BuildManager} buildManager 
+   * @param {ObjectManager} objManager 
+   * @param {UnitOptions} options 
+   */
   constructor(mapObject, buildManager, objManager, options) {
     super()
     assignOptions(this, options);
@@ -58,6 +82,7 @@ class Unit extends DefaultUnit {
     }
   }
 
+  /** @returns {number} */
   get drawingState() {
     return this._drawingState;
   }
@@ -95,6 +120,7 @@ class Unit extends DefaultUnit {
     this.needDelete = true; // just one update and delete unit from list of units
   }
 
+  /** @param {number} steps */
   updateTime(steps) {
     if (this.timeCount <= 0) {
       console.log('timer exceeded ' + this.timeCount);
@@ -102,11 +128,9 @@ class Unit extends DefaultUnit {
       this.timerCallback();
     }
     this.timeCount -= steps;
-    if (steps > 1) {
-      console.log('steps = ' + steps);
-    }
   }
 
+  /** @param {number} steps */
   update(steps) {
     if (this.needUpdate) {
       console.log("update unit " + this.unitType);
@@ -120,20 +144,54 @@ class Unit extends DefaultUnit {
 }
 
 class ObjectManager {
+  /**
+   * @param {GameMap} _gameMap 
+   * @param {BuildManager} _buildManager 
+   */
   constructor(_gameMap, _buildManager) {
+    /** @type {Unit[]} */
     this.units = [];
     this.gameMap = _gameMap;
     this.buildManager = _buildManager;
   }
 
+  /**
+   * @param {(u: Unit) => boolean} predicate 
+   * @returns array of units as copied object links filtered by `predicate`
+   */
+  getUnits(predicate = u => true) {
+    let filtered = [];
+    for (let unit of this.units) {
+      if (predicate(unit)) {
+        filtered.push(unit);
+      }
+    }
+    return filtered;
+  }
+
+  /** Create new unit and add it to `ObjectManager.units` array.
+   * @param {UnitOptions} options optional fields of `Unit` class
+   * @returns {Unit} unit
+   */
+  spawnUnit(options) {
+    let unit = new Unit(this.gameMap, this.buildManager, this, options);
+    this.units.push(unit);
+    return unit;
+  }
+
+  /**
+   * Launch update for each unit that corresponds to `ObjectManager` instance
+   * @param {number} steps number of game ticks between last and penultimate updates
+   */
   update(steps) {
     for (let unit of this.units) {
       unit.update(steps);
     }
-    this.deleteUnits();
+    this._deleteUnits();
   }
 
-  deleteUnits() {
+  /** @protected */
+  _deleteUnits() {
     for (let i = this.units.length - 1; i >= 0; i--) {
       let unit = this.units[i];
       if (unit.needDelete && !unit.needUpdate) {
@@ -141,32 +199,16 @@ class ObjectManager {
       }
     }
   }
-
-  spawnUnit(options) {
-    let unit = new Unit(this.gameMap, this.buildManager, this, options);
-    this.units.push(unit);
-    return unit;
-  }
 }
 
+/**
+ * @todo Make (more human-readable id or just string id) and id with no collisions
+*/
 function getUniqueId() {
   return Math.floor(Math.random() * 1000000);
 }
 
-function getDestroyedBuildingTexPos(w, h, unitType) {
-  // @ts-ignore
-  let pos = destroyed_buildings_mapping[w - 1][h - 1];
-  if (pos === undefined) {
-    throw new Error(`destroyed_buildings_mapping[${w - 1}][${h - 1}] is undefined: You can specify it in defs.js`);
-  } else {
-    if (unitType === "wall") {
-      return { x: 9, y: 3 };
-    } else {
-      return pos;
-    }
-  }
-}
-
+// @ts-ignore
 function assignOptions(target, source) {
   for (let key in source) {
     let item = target[key];
@@ -177,6 +219,5 @@ function assignOptions(target, source) {
     } else {
       target[key] = source[key];
     }
-    // console.log('key: ', key, 'assigned to', options[key]);
   }
 }

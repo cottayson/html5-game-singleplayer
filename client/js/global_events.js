@@ -1,70 +1,66 @@
-let objectManager = undefined;
-let unitTurret = undefined;
+/** @type {ObjectManager} */
+let objectManager;
+/** @type {number[]} */
 let timers = [];
 
-function createTimer(cb, milliseconds) {
-  timers.push(setTimeout(cb, milliseconds));
+function initializeTimers() {
+  const count = timers.length;
+  timers.map(clearTimeout);
+  timers = [];
+  return count;
+}
+
+/**
+ * @param {TimerHandler} callback
+ * @param {number | undefined} milliseconds
+ */
+function createTimer(callback, milliseconds) {
+  timers.push(setTimeout(callback, milliseconds));
 }
 
 function spawnUnits() {
   objectManager = new ObjectManager(gameMap, buildManager);
-  // cameraOffset <=> { x: 7, y: 15 }
-  let options = {
-    pos: { x: 15, y: 20 },
-    unitType: "outpost",
-  };
-  objectManager.spawnUnit(options);
-  options.pos.y += 2;
-  options.unitType = "turret";
-  objectManager.spawnUnit(options);
-  options.pos.y += 1;
-  options.unitType = "rocket_turret";
-  objectManager.spawnUnit(options);
-  options.pos.x += 1;
-  options.pos.y -= 1;
-  options.unitType = "refinery";
-  objectManager.spawnUnit(options);
-  options.pos.y += 2;
-  options.unitType = "starport";
-  objectManager.spawnUnit(options);
-  options.pos.x -= 2;
-  options.unitType = "windtrap";
-  objectManager.spawnUnit(options);
-  options.pos.y -= 1;
-  options.unitType = "wall";
-  objectManager.spawnUnit(options);
-  options.pos.y -= 1;
-  options.unitType = "concrete";
-  objectManager.spawnUnit(options);
-  options.pos.y += 4;
-  options.unitType = "construction_yard";
-  objectManager.spawnUnit(options);
-  options.pos.x += 2;
-  options.pos.y += 1;
-  options.unitType = "barracks";
-  objectManager.spawnUnit(options);
+  objectManager.spawnUnit({
+    needDelete: true,
+    pos: { x: 15, y: 22 },
+    unitType: UNIT_TYPE.outpost,
+  });
 
-  objectManager.units.map(createDebugAnimation);
-  objectManager.units.map((unit, i) => {
-    unit.destroy(150 + 20 * i);
+  objectManager.spawnUnit({
+    pos: { x: 17, y: 22 },
+    unitType: UNIT_TYPE.construction_yard,
+  });
+
+  objectManager.spawnUnit({
+    pos: { x: 17, y: 25 },
+    unitType: UNIT_TYPE.refinery,
+  });
+
+  // objectManager.units.filter(unit => unit.unitType !== "outpost").map(createDebugAnimation);
+  objectManager.units.map(unit => {
+    if (unit.unitType !== UNIT_TYPE.refinery) {
+      createDebugConstructionAnimation(unit);
+    }
   });
 }
 
-function createDebugAnimation(unit) {
-  const startTime = 500;
+/**
+ * Incorrectly implemented construction animation.
+ * When user hit `pause` some strange effects occur.
+ * But for debugging it's enough.
+ * @param {Unit} unit
+ */
+function createDebugConstructionAnimation(unit, startTime = 800) {
   unit.nextDrawingState([0, 2]);
-  createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime);
-  createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime + 300);
-  createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime + 500);
-  createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime + 600);
-  createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime + 700);
+  [0, 300, 500, 600, 700].forEach(dt => {
+    createTimer(() => { unit.nextDrawingState([0, 2]); }, startTime + dt);
+  });
 }
 
 function onRestart() {
-  timers.map(clearTimeout);
-  console.warn("timers cleared: ", timers.length);
-  timers = [];
+  console.warn("timers cleared: ", initializeTimers());
   spawnUnits();
+  // @ts-ignore
   gameMap.data = copy2DArray(gameMap.data_stored);
 }
 
@@ -82,6 +78,9 @@ function onStart() {
   console.log(`innerWidth = ${innerWidth}, innerHeight = ${innerHeight}`);
 }
 
+/**
+ * @param {number} steps
+ */
 function onUpdate(steps) {
   objectManager.update(steps);
 }
